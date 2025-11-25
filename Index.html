@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chemie Horror Lab</title>
+  <style>
+    body {
+      background: #0d0d0d;
+      color: #e3e3e3;
+      font-family: "Poppins", sans-serif;
+      padding: 20px;
+      max-width: 700px;
+      margin: auto;
+    }
+    .choice {
+      margin: 10px 0;
+      padding: 10px;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .choice:hover {
+      background: #262626;
+    }
+  </style>
+</head>
+<body>
+  <h1>Chemie-Horror: Das Labor wacht auf</h1>
+  <div id="game"></div>
+
+  <script>
+    const game = document.getElementById("game");
+
+    function show(text, choices = []) {
+      game.innerHTML = `<p>${text}</p>`;
+      choices.forEach(c => {
+        const div = document.createElement("div");
+        div.className = "choice";
+        div.textContent = c.text;
+        div.onclick = c.action;
+        game.appendChild(div);
+      });
+    }
+
+    function start() {
+      show(
+        "Du bist allein im Labor. Die Lichter flackern. Ein Experiment steht bevor. Welche Sicherheitsmaßnahme triffst du zuerst?",
+        [
+          { text: "Schutzbrille anziehen", action: brille },
+          { text: "Direkt zum Reagenzglas gehen", action: badEnding1 }
+        ]
+      );
+    }
+
+    function brille() {
+      show(
+        "Die Schutzbrille sitzt. Etwas kratzt an der Labortür. Was ziehst du als nächstes an?",
+        [
+          { text: "Laborkittel anziehen", action: kittel },
+          { text: "Keine Zeit, weiter zum Stoff", action: badEnding2 }
+        ]
+      );
+    }
+
+    function kittel() {
+      show(
+        "Kittel sitzt. Deine Hände zittern leicht. Du brauchst noch...",
+        [
+          { text: "Handschuhe anziehen", action: handschuhe },
+          { text: "Ach, Hände sind sauber genug", action: badEnding3 }
+        ]
+      );
+    }
+
+    function handschuhe() {
+      show(
+        "Du bist komplett geschützt. Der gefährliche Stoff beginnt zu reagieren. Was tust du?",
+        [
+          { text: "Abzug einschalten", action: goodPath },
+          { text: "Ganz nah rangehen und schauen", action: badEnding4 }
+        ]
+      );
+    }
+
+    function goodPath() {
+      show(
+        "Der Abzug startet. Der Raum beruhigt sich. Du hast die Sicherheitsregeln richtig beachtet — das Experiment geht weiter... (Fortsetzung folgt)",
+        []
+      );
+    }
+
+    function badEnding1() {
+      show(
+        "Du gehst direkt zum Reagenzglas. Eine plötzliche Dampfexplosion trifft deine Augen. Du hast die Sicherheitsregeln missachtet. BAD ENDING.",
+        [{ text: "Neu starten", action: start }]
+      );
+    }
+
+    function badEnding2() {
+      show(
+        "Der Stoff reagiert unkontrolliert. Ohne Kittel verbrennt deine Haut sofort. BAD ENDING.",
+        [{ text: "Neu starten", action: start }]
+      );
+    }
+
+    function badEnding3() {
+      show(
+        "Du greifst nach dem Reagenzglas – und spürst ein Brennen. Chemikalien ziehen in deine Haut. BAD ENDING.",
+        [{ text: "Neu starten", action: start }]
+      );
+    }
+
+    function badEnding4() {
+      show(
+        "Du gehst zu nah ran. Die Dämpfe füllen deine Lunge. Alles dreht sich... BAD ENDING.",
+        [{ text: "Neu starten", action: start }]
+      );
+    }
+
+    start();
+  </script>
+</body>
+</html>
