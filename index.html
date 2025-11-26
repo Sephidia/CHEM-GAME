@@ -25,6 +25,12 @@
     .choice:hover {
       background: #262626;
     }
+    .flame-info {
+      margin: 10px 0;
+      padding: 10px;
+      background: #262626;
+      border-left: 4px solid #ff5555;
+    }
   </style>
 </head>
 <body>
@@ -97,49 +103,79 @@
 
     function gefahrensymbole() {
       show(
-        "Du siehst Totenkopf, Flamme und Ätzend-Symbol. Wie gehst du vor?",
+        "Du siehst drei Symbole: 🔥 Entflammbar, ☠️ Totenkopf (akute Toxizität), ☣️ Person mit Stern (Lebensgefahr). Was tust du?",
         [
-          { text: "Schutzmaßnahmen überprüfen die Stoffe sind toxisch, entflammbar und lebensgefährlich.", action: reagenzglas },
-          { text: "icherheitsmaßnahmen überprüfen und experiment starten. Die Stoffe sind zwar lebensgefährlich aber nicht leicht entflammbar.", action: badEnding6 }
+          { text: "Schutzmaßnahmen überprüfen und Stoff vorsichtig handhaben", action: flamePart },
+          { text: "Symbole ignorieren und Experiment starten", action: badEnding6 }
         ]
       );
+    }
+
+    function flamePart() {
+      show(
+        "Du bereitest die Flamme vor. Welche Farbe hat die Flamme?",
+        [
+          { text: "Rote Flamme", action: redFlame },
+          { text: "Blaue Flamme", action: blueFlame },
+          { text: "Gar keine Flamme", action: badEnding7 }
+        ]
+      );
+    }
+
+    function redFlame() {
+      show("🔥 Die rote Flamme zeigt eine unvollständige Verbrennung an. Entsteht durch unzureichenden Sauerstoffzufuhr, da die Lufzufuhr geschlossen ist. Viel Rauch kann entstehen! Du passt die Flamme an, um eine blaue Flamme zu bekommen.", [
+        { text: "Weiter mit Experiment", action: toolChoice }
+      ]);
+    }
+
+    function blueFlame() {
+      show("🔵 Die blaue Flamme zeigt eine vollständige Verbrennung an. Entsteht bei optimalem Sauerstofffluss und sauberem Gasbrenner. Hitze effizient, sauber, bereit für dein Experiment.", [
+        { text: "Weiter mit Experiment", action: toolChoice }
+      ]);
+    }
+
+    function toolChoice() {
+      show(
+        "Jetzt musst du das richtige Werkzeug wählen: Was benutzt du zum rühren con flüssigen Stoffen?",
+        [
+          { text: "Glastab (Spatel) verwenden", action: useGlassRod },
+          { text: "Mörser mit Pistill verwenden", action: useMortar },
+          { text: "Gar kein Werkzeug", action: badEnding8 }
+        ]
+      );
+    }
+
+    function useGlassRod() {
+      show("✅ Du benutzt den Glastab. Präzise, sauber, sicher für kleine Mengen. Dein Experiment läuft weiter stabil. Korrekt da der Mörser für feste Stoffe ist.", [
+        { text: "Experiment abschließen", action: finalGoodEnding }
+      ]);
+    }
+
+    function useMortar() {
+      show("⚠️ Mörser und Pistill sind für größere Mengen geeignet, aber du verschüttest leicht etwas und riskierst Kontamination. Dein Experiment wird schwieriger.", [
+        { text: "Experiment trotzdem abschließen", action: finalGoodEnding }
+      ]);
     }
 
     function reagenzglas() {
-      show(
-        "Du benutzt Siedestäbchen, hältst die Mündung schräg und verteilst die Hitze gleichmäßig. Experiment läuft stabil.",
-        [
-          { text: "Experiment erfolgreich abschließen", action: finalGoodEnding }
-        ]
-      );
+      show("Du benutzt Siedestäbchen, hältst die Mündung schräg und verteilst die Hitze gleichmäßig. Experiment läuft stabil.", [
+        { text: "Experiment erfolgreich abschließen", action: finalGoodEnding }
+      ]);
     }
 
     function finalGoodEnding() {
-      show(
-        "Du hast alle Sicherheitsregeln beachtet, die Gefahrensymbole erkannt und das Experiment sicher abgeschlossen. Herzlichen Glückwunsch! CONGRATS!",
-        []
-      );
+      show("Du hast alle Sicherheitsregeln beachtet, die Gefahrensymbole erkannt, die Flamme richtig verstanden und das passende Werkzeug gewählt. Experiment erfolgreich abgeschlossen. Herzlichen Glückwunsch! CONGRATS!", []);
     }
 
     // BAD ENDINGS
-    function badEnding1() {
-      show("Du gehst direkt zum Reagenzglas. Eine plötzliche Dampfexplosion trifft deine Augen. BAD ENDING.", [{ text: "Neu starten", action: start }]);
-    }
-    function badEnding2() {
-      show("Der Stoff reagiert unkontrolliert. Ohne Kittel verbrennt deine Haut sofort. BAD ENDING.", [{ text: "Neu starten", action: start }]);
-    }
-    function badEnding3() {
-      show("Du greifst nach dem Reagenzglas – und spürst ein Brennen. Chemikalien ziehen in deine Haut. BAD ENDING.", [{ text: "Neu starten", action: start }]);
-    }
-    function badEnding4() {
-      show("Du gehst zu nah ran. Die Dämpfe füllen deine Lunge. Alles dreht sich... BAD ENDING.", [{ text: "Neu starten", action: start }]);
-    }
-    function badEnding5() {
-      show("Du fasst das Reagenzglas direkt an. Chemikalien ätzen deine Hände. BAD ENDING.", [{ text: "Neu starten", action: start }]);
-    }
-    function badEnding6() {
-      show("Du ignorierst die Gefahrensymbole. Plötzlich reagiert der Stoff heftig. BAD ENDING.", [{ text: "Neu starten", action: start }]);
-    }
+    function badEnding1() { show("Du gehst direkt zum Reagenzglas. Eine plötzliche Dampfexplosion trifft deine Augen. BAD ENDING.", [{ text: "Neu starten", action: start }]); }
+    function badEnding2() { show("Der Stoff reagiert unkontrolliert. Ohne Kittel verbrennt deine Haut sofort. BAD ENDING.", [{ text: "Neu starten", action: start }]); }
+    function badEnding3() { show("Du greifst nach dem Reagenzglas – und spürst ein Brennen. Chemikalien ziehen in deine Haut. BAD ENDING.", [{ text: "Neu starten", action: start }]); }
+    function badEnding4() { show("Du gehst zu nah ran. Die Dämpfe füllen deine Lunge. Alles dreht sich... BAD ENDING.", [{ text: "Neu starten", action: start }]); }
+    function badEnding5() { show("Du fasst das Reagenzglas direkt an. Chemikalien ätzen deine Hände. BAD ENDING.", [{ text: "Neu starten", action: start }]); }
+    function badEnding6() { show("Du ignorierst die Gefahrensymbole. Plötzlich reagiert der Stoff heftig. BAD ENDING.", [{ text: "Neu starten", action: start }]); }
+    function badEnding7() { show("Du zündest keine Flamme. Das Experiment kann nicht starten. BAD ENDING.", [{ text: "Neu starten", action: start }]); }
+    function badEnding8() { show("Du benutzt kein Werkzeug. Das Zerkleinern des Stoffs misslingt. BAD ENDING.", [{ text: "Neu starten", action: start }]); }
 
     start();
   </script>
