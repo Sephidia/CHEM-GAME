@@ -47,9 +47,9 @@
 
     function start() {
       show(
-        "Du bist allein im Labor. Die Lichter flackern. Ein Experiment steht bevor. Welche Sicherheitsmaßnahme triffst du zuerst?",
+        "Du betrittst das Labor. Lichter flackern, Dämpfe steigen auf. Was ist dein erster Schritt?",
         [
-          { text: "Schutzbrille anziehen", action: brille },
+          { text: "Schutzbrille aufsetzen", action: brille },
           { text: "Direkt zum Reagenzglas gehen", action: badEnding1 }
         ]
       );
@@ -57,7 +57,7 @@
 
     function brille() {
       show(
-        "Die Schutzbrille sitzt. Etwas kratzt an der Labortür. Was ziehst du als nächstes an?",
+        "Brille sitzt. Jetzt solltest du dich weiter schützen. Was ziehst du als nächstes an?",
         [
           { text: "Laborkittel anziehen", action: kittel },
           { text: "Keine Zeit, weiter zum Stoff", action: badEnding2 }
@@ -67,7 +67,7 @@
 
     function kittel() {
       show(
-        "Kittel sitzt. Deine Hände zittern leicht. Du brauchst noch...",
+        "Kittel sitzt. Jetzt die Handschuhe?",
         [
           { text: "Handschuhe anziehen", action: handschuhe },
           { text: "Ach, Hände sind sauber genug", action: badEnding3 }
@@ -77,47 +77,68 @@
 
     function handschuhe() {
       show(
-        "Du bist komplett geschützt. Der gefährliche Stoff beginnt zu reagieren. Was tust du?",
+        "Alles geschützt. Der gefährliche Stoff steht bereit. Was machst du jetzt?",
         [
-          { text: "Abzug einschalten", action: goodPath },
-          { text: "Ganz nah rangehen und schauen", action: badEnding4 }
+          { text: "Abzug einschalten", action: abzug },
+          { text: "Ganz nah rangehen und beobachten", action: badEnding4 }
         ]
       );
     }
 
-    function goodPath() {
+    function abzug() {
       show(
-        "Der Abzug startet. Der Raum beruhigt sich. Du hast die Sicherheitsregeln richtig beachtet — das Experiment geht weiter... (Fortsetzung folgt)",
+        "Abzug läuft. Jetzt kannst du die Chemikalien untersuchen. Was machst du zuerst?",
+        [
+          { text: "Gefahrensymbole prüfen", action: gefahrensymbole },
+          { text: "Reagenzglas direkt anfassen", action: badEnding5 }
+        ]
+      );
+    }
+
+    function gefahrensymbole() {
+      show(
+        "Du siehst Totenkopf, Flamme und Ätzend-Symbol. Wie gehst du vor?",
+        [
+          { text: "Schutzmaßnahmen überprüfen die Stoffe sind toxisch, entflammbar und lebensgefährlich.", action: reagenzglas },
+          { text: "icherheitsmaßnahmen überprüfen und experiment starten. Die Stoffe sind zwar lebensgefährlich aber nicht leicht entflammbar.", action: badEnding6 }
+        ]
+      );
+    }
+
+    function reagenzglas() {
+      show(
+        "Du benutzt Siedestäbchen, hältst die Mündung schräg und verteilst die Hitze gleichmäßig. Experiment läuft stabil.",
+        [
+          { text: "Experiment erfolgreich abschließen", action: finalGoodEnding }
+        ]
+      );
+    }
+
+    function finalGoodEnding() {
+      show(
+        "Du hast alle Sicherheitsregeln beachtet, die Gefahrensymbole erkannt und das Experiment sicher abgeschlossen. Herzlichen Glückwunsch! CONGRATS!",
         []
       );
     }
 
+    // BAD ENDINGS
     function badEnding1() {
-      show(
-        "Du gehst direkt zum Reagenzglas. Eine plötzliche Dampfexplosion trifft deine Augen. Du hast die Sicherheitsregeln missachtet. BAD ENDING.",
-        [{ text: "Neu starten", action: start }]
-      );
+      show("Du gehst direkt zum Reagenzglas. Eine plötzliche Dampfexplosion trifft deine Augen. BAD ENDING.", [{ text: "Neu starten", action: start }]);
     }
-
     function badEnding2() {
-      show(
-        "Der Stoff reagiert unkontrolliert. Ohne Kittel verbrennt deine Haut sofort. BAD ENDING.",
-        [{ text: "Neu starten", action: start }]
-      );
+      show("Der Stoff reagiert unkontrolliert. Ohne Kittel verbrennt deine Haut sofort. BAD ENDING.", [{ text: "Neu starten", action: start }]);
     }
-
     function badEnding3() {
-      show(
-        "Du greifst nach dem Reagenzglas – und spürst ein Brennen. Chemikalien ziehen in deine Haut. BAD ENDING.",
-        [{ text: "Neu starten", action: start }]
-      );
+      show("Du greifst nach dem Reagenzglas – und spürst ein Brennen. Chemikalien ziehen in deine Haut. BAD ENDING.", [{ text: "Neu starten", action: start }]);
     }
-
     function badEnding4() {
-      show(
-        "Du gehst zu nah ran. Die Dämpfe füllen deine Lunge. Alles dreht sich... BAD ENDING.",
-        [{ text: "Neu starten", action: start }]
-      );
+      show("Du gehst zu nah ran. Die Dämpfe füllen deine Lunge. Alles dreht sich... BAD ENDING.", [{ text: "Neu starten", action: start }]);
+    }
+    function badEnding5() {
+      show("Du fasst das Reagenzglas direkt an. Chemikalien ätzen deine Hände. BAD ENDING.", [{ text: "Neu starten", action: start }]);
+    }
+    function badEnding6() {
+      show("Du ignorierst die Gefahrensymbole. Plötzlich reagiert der Stoff heftig. BAD ENDING.", [{ text: "Neu starten", action: start }]);
     }
 
     start();
